@@ -1,5 +1,5 @@
-import { Box } from "lucide-react";
-import React from "react";
+import { Box } from 'lucide-react';
+import React from 'react';
 
 const Navbar = () => {
   return (
