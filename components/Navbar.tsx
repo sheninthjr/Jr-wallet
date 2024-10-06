@@ -1,16 +1,26 @@
 'use client';
-
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import {
   WalletDisconnectButton,
   WalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
 import { Box } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Navbar = () => {
   const wallet = useWallet();
-
+  const { connection } = useConnection();
+  const [balance, setBalance] = useState<number>();
+  useEffect(() => {
+    async function getBalance() {
+      if (wallet.publicKey) {
+        const response = await connection.getBalance(wallet.publicKey);
+        setBalance(response / LAMPORTS_PER_SOL);
+      }
+    }
+    getBalance();
+  }, [connection, wallet]);
   const buttonStyle = {
     backgroundColor: '#3FBDD0',
     borderRadius: '10px',
@@ -27,12 +37,19 @@ const Navbar = () => {
           </span>
         </div>
       </div>
-      <div>
-        {wallet.connected ? (
-          <WalletDisconnectButton style={buttonStyle} />
-        ) : (
-          <WalletMultiButton style={buttonStyle} />
-        )}
+      <div className="flex justify-center items-center gap-4">
+        <div
+          className={`${balance && `bg-[#1C243E] p-3 font-semibold text-gray-300 rounded-xl`}`}
+        >
+          {balance ? `${balance.toFixed(2)} SOL` : ''}
+        </div>
+        <div>
+          {wallet.connected ? (
+            <WalletDisconnectButton style={buttonStyle} />
+          ) : (
+            <WalletMultiButton style={buttonStyle} />
+          )}
+        </div>
       </div>
     </nav>
   );
