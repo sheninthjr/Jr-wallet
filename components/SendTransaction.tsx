@@ -1,17 +1,76 @@
-import { useWallet } from '@solana/wallet-adapter-react';
+'use client';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import {
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+} from '@solana/web3.js';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 export function SendTransaction() {
   const wallet = useWallet();
-
+  const { connection } = useConnection();
   const [recipient, setRecipient] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState('SOL');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [amount, setAmount] = useState<string | null>(null);
 
-  const handleRecipientChange = (e: any) => {
+  const isValidSolanaAddress = (address: string) => {
+    try {
+      const pubkey = new PublicKey(address);
+      return PublicKey.isOnCurve(pubkey);
+    } catch (error) {
+      return false;
+    }
+  };
+
+  async function SendMoney() {
+    try {
+      const lamports = parseFloat(amount || '0') * LAMPORTS_PER_SOL;
+      if (lamports <= 0 || !recipient) {
+        alert('Please enter a valid amount and recipient.');
+        return;
+      }
+      if (!isValidSolanaAddress(recipient)) {
+        alert('Invalid Solana address. Please enter a valid Solana address.');
+        return;
+      }
+      const transaction = new Transaction();
+      transaction.add(
+        SystemProgram.transfer({
+          fromPubkey: wallet.publicKey!,
+          toPubkey: new PublicKey(recipient),
+          lamports,
+        }),
+      );
+
+      const signature = await wallet.sendTransaction(transaction, connection);
+      const latestBlockhash = await connection.getLatestBlockhash();
+      const confirmation = await connection.confirmTransaction({
+        signature,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      });
+      if (confirmation.value.err) {
+        alert('Transaction failed.');
+      } else {
+        alert('Transaction Successful!');
+      }
+    } catch (error) {
+      console.error('Transaction failed', error);
+      alert('Transaction failed. Please try again.');
+    }
+  }
+
+  const handleRecipientChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRecipient(e.target.value);
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value);
   };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -20,6 +79,9 @@ export function SendTransaction() {
     setSelectedCurrency(currency);
     setIsDropdownOpen(false);
   };
+
+  const isSendDisabled =
+    !wallet.connected || !amount || parseFloat(amount) <= 0 || !recipient;
 
   return (
     <div className="relative-container bg-[#1C243E] w-1/2 p-4 rounded-xl h-[550px]">
@@ -77,50 +139,29 @@ export function SendTransaction() {
 
           {isDropdownOpen && (
             <div className="absolute top-16 w-44 bg-[#1C243E] rounded-xl text-white z-10">
-              <div
-                className="flex items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
-                onClick={() => selectCurrency('SOL')}
-              >
-                <Image
-                  src="/sol.png"
-                  alt="SOL"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 mr-2"
-                />
-                <strong>SOL</strong>
-              </div>
-              <div
-                className="flex items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
-                onClick={() => selectCurrency('ETH')}
-              >
-                <Image
-                  src="/eth.png"
-                  width={24}
-                  height={24}
-                  alt="ETH"
-                  className="w-6 h-6 mr-2"
-                />
-                <strong>ETH</strong>
-              </div>
-              <div
-                className="flex items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
-                onClick={() => selectCurrency('BTC')}
-              >
-                <Image
-                  src="/btc.png"
-                  width={24}
-                  height={24}
-                  alt="BTC"
-                  className="w-6 h-6 mr-2"
-                />
-                <strong>BTC</strong>
-              </div>
+              {['SOL', 'ETH', 'BTC'].map((currency) => (
+                <div
+                  key={currency}
+                  className="flex items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
+                  onClick={() => selectCurrency(currency)}
+                >
+                  <Image
+                    src={`/${currency.toLowerCase()}.png`}
+                    alt={currency}
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 mr-2"
+                  />
+                  <strong>{currency}</strong>
+                </div>
+              ))}
             </div>
           )}
 
           <input
             placeholder="Enter amount"
+            value={amount || ''}
+            onChange={handleAmountChange}
             className="rounded-xl w-48 outline-none pl-4 bg-[#1C243E] text-white h-14"
           />
         </div>
@@ -132,6 +173,7 @@ export function SendTransaction() {
           placeholder="Recipient's Address"
           className="rounded-xl w-full outline-none h-14 pl-4 py-2 bg-[#1C243E] text-white"
         />
+
         <div className="mt-4 text-center">
           <div className="bg-[#3FBDD0] w-full py-1 rounded-xl text-[#161D33] relative">
             <div className="font-bold text-xl">
@@ -146,7 +188,13 @@ export function SendTransaction() {
                   }}
                 />
               ) : (
-                <button className="bg-[#3FBDD0] w-full py-2 rounded-xl text-[#161D33]">
+                <button
+                  className={`w-full bg-[#3FBDD0] py-2 rounded-xl text-[#161D33] ${
+                    isSendDisabled ? 'cursor-not-allowed' : ' cursor-pointer'
+                  }`}
+                  onClick={SendMoney}
+                  disabled={isSendDisabled}
+                >
                   Send
                 </button>
               )}
