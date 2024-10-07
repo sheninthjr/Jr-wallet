@@ -83,3 +83,22 @@
     floatCoin 6s infinite ease-in-out,
     pulseCoin 4s infinite ease-in-out;
 }
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-field {
+  border: 3px solid #3fbdd0;
+  border-radius: 20px;
+  padding-right: 40px;
+  transition:
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.input-field:focus {
+  border-color: #3fbdd0;
+  box-shadow: 0 0 10px #3fbdd0;
+}

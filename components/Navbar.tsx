@@ -12,6 +12,7 @@ const Navbar = () => {
   const wallet = useWallet();
   const { connection } = useConnection();
   const [balance, setBalance] = useState<number>();
+
   useEffect(() => {
     async function getBalance() {
       if (wallet.publicKey) {
@@ -21,6 +22,7 @@ const Navbar = () => {
     }
     getBalance();
   }, [connection, wallet]);
+
   const buttonStyle = {
     backgroundColor: '#3FBDD0',
     borderRadius: '10px',
@@ -33,7 +35,7 @@ const Navbar = () => {
         <Box className="size-8 text-[#3EBDD3]" />
         <div className="flex flex-col gap-4">
           <span className="tracking-tighter text-3xl font-extrabold flex bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent gap-2 items-center">
-            Jr Wallet
+            <a href="/">Jr Wallet</a>
           </span>
         </div>
       </div>

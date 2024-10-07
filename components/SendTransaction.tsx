@@ -85,7 +85,7 @@ export function SendTransaction() {
 
   return (
     <div className="relative-container bg-[#1C243E] w-1/2 p-4 rounded-xl h-[550px]">
-      <div className="bg-[#0B1022] pr-10 pl-10 pb-10 m-10 rounded-xl h-[450px] flex flex-col justify-evenly relative">
+      <div className="bg-[#0B1022] pr-10 pl-10 pb-10 m-10 rounded-xl input-field h-[450px] flex flex-col justify-evenly relative">
         <Image
           src="/sol.png"
           alt="SOL"
@@ -119,7 +119,7 @@ export function SendTransaction() {
           className="coin-animation"
         />
 
-        <div className="relative flex justify-between mb-4">
+        <div className="relative flex justify-between mb-4 ">
           <div
             className="relative w-44 h-14 bg-[#1C243E] p-4 rounded-xl text-white cursor-pointer"
             onClick={toggleDropdown}
@@ -142,7 +142,7 @@ export function SendTransaction() {
               {['SOL', 'ETH', 'BTC'].map((currency) => (
                 <div
                   key={currency}
-                  className="flex items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
+                  className="flex input-fi items-center p-3 hover:bg-[#3FBDD0] hover:rounded-xl cursor-pointer"
                   onClick={() => selectCurrency(currency)}
                 >
                   <Image
