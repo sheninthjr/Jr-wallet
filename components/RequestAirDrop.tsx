@@ -23,8 +23,8 @@ export function RequestAirDrop() {
           solAmount * LAMPORTS_PER_SOL,
         );
         alert('Airdropped SOL to your wallet');
-      } catch (error) {
-        console.error('Airdrop failed', error);
+      } catch (error: any) {
+        alert(error.message);
       }
     }
     airDrop();
