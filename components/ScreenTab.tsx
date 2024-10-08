@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { SendTransaction } from './SendTransaction';
 import { RequestAirDrop } from './RequestAirDrop';
 import { HistoryTransaction } from './HistoryTransaction';
-import { Swap } from './Swap';
+import { TokenLaunchPad } from './TokenLaunchPad';
 
 export function ScreenTab() {
   const [activeTab, setActiveTab] = useState(0);
@@ -55,7 +55,7 @@ export function ScreenTab() {
       </div>
       <div className="mt-8 p-4 text-black flex justify-center">
         {activeTab === 0 && <SendTransaction />}
-        {activeTab === 1 && <Swap />}
+        {activeTab === 1 && <TokenLaunchPad />}
         {activeTab === 2 && <RequestAirDrop />}
         {activeTab === 3 && <HistoryTransaction />}
       </div>
