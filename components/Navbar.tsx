@@ -18,10 +18,12 @@ const Navbar = () => {
       if (wallet.publicKey) {
         const response = await connection.getBalance(wallet.publicKey);
         setBalance(response / LAMPORTS_PER_SOL);
+      } else {
+        setBalance(undefined);
       }
     }
     getBalance();
-  }, [connection, wallet]);
+  }, [connection, wallet.publicKey, wallet.connected]);
 
   const buttonStyle = {
     backgroundColor: '#3FBDD0',
@@ -30,7 +32,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center py-4">
+    <div className="flex justify-between items-center py-4">
       <div className="flex items-center gap-2">
         <Box className="size-8 text-[#3EBDD3]" />
         <div className="flex flex-col gap-4">
@@ -41,9 +43,9 @@ const Navbar = () => {
       </div>
       <div className="flex justify-center items-center gap-4">
         <div
-          className={`${balance && `bg-[#1C243E] p-3 font-semibold text-gray-300 rounded-xl`}`}
+          className={`${balance !== undefined && `bg-[#1C243E] p-3 font-semibold text-gray-300 rounded-xl`}`}
         >
-          {balance ? `${balance.toFixed(2)} SOL` : ''}
+          {balance !== undefined ? `${balance.toFixed(2)} SOL` : ''}
         </div>
         <div>
           {wallet.connected ? (
@@ -53,7 +55,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 

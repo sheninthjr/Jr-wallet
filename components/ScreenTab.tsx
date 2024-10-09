@@ -7,7 +7,12 @@ import { TokenLaunchPad } from './TokenLaunchPad';
 
 export function ScreenTab() {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ['Send Transaction', 'Swap', 'Request Airdrop', 'History'];
+  const tabs = [
+    'Send Transaction',
+    'Token Launch Pad',
+    'Request Airdrop',
+    'History',
+  ];
   const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [indicatorStyle, setIndicatorStyle] = useState({
