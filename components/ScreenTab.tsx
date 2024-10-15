@@ -58,7 +58,7 @@ export function ScreenTab() {
           }}
         />
       </div>
-      <div className="mt-8 md:p-4 lg:p-4 xl:p-4 text-black flex justify-center">
+      <div className="mt-8 p-2 md:p-4 lg:p-4 xl:p-4 text-black flex justify-center">
         {activeTab === 0 && <SendTransaction />}
         {activeTab === 1 && <TokenLaunchPad />}
         {activeTab === 2 && <RequestAirDrop />}
