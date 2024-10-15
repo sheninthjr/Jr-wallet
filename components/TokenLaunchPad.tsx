@@ -89,7 +89,7 @@ export function TokenLaunchPad() {
           className="rounded-xl outline-none pl-4 bg-[#1C243E] text-white h-14"
         />
         <input
-          placeholder="Enter the initail supply"
+          placeholder="Enter the initial supply"
           id="supply"
           value={tokenSupply}
           onChange={handleValueChange}

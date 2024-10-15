@@ -13,10 +13,10 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 const WalletProviderWrapper = ({ children }: { children: React.ReactNode }) => {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const wallets = useMemo(() => [new UnsafeBurnerWalletAdapter()], [network]);
+
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
