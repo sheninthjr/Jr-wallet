@@ -32,16 +32,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center py-4">
+    <div className="flex flex-col md:flex-row justify-between items-center py-4 px-4 md:px-8">
       <div className="flex items-center gap-2">
         <Box className="size-8 text-[#3EBDD3]" />
-        <div className="flex flex-col gap-4">
-          <span className="tracking-tighter text-3xl font-extrabold flex bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent gap-2 items-center">
+        <div className="flex flex-col gap-1">
+          <span className="tracking-tighter text-2xl md:text-3xl font-extrabold flex bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent gap-2 items-center">
             <a href="/">Jr Wallet</a>
           </span>
         </div>
       </div>
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-4 mt-2 md:mt-0">
         <div
           className={`${balance !== undefined && `bg-[#1C243E] p-3 font-semibold text-gray-300 rounded-xl`}`}
         >

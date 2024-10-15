@@ -1,10 +1,27 @@
 'use client';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { Keypair } from '@solana/web3.js';
 import { useState } from 'react';
+import {
+  MINT_SIZE,
+  TOKEN_2022_PROGRAM_ID,
+  createMintToInstruction,
+  createAssociatedTokenAccountInstruction,
+  getMintLen,
+  createInitializeMetadataPointerInstruction,
+  createInitializeMintInstruction,
+  TYPE_SIZE,
+  LENGTH_SIZE,
+  ExtensionType,
+  mintTo,
+  getOrCreateAssociatedTokenAccount,
+  getAssociatedTokenAddressSync,
+} from '@solana/spl-token';
 
 export function TokenLaunchPad() {
   const wallet = useWallet();
+  const { connection } = useConnection();
 
   const [tokenName, setTokenName] = useState<string>('');
   const [tokenSymbol, setTokenSymbol] = useState<string>('');
@@ -33,12 +50,23 @@ export function TokenLaunchPad() {
   };
 
   const handleCreateToken = () => {
-    console.log('handleCreateToken');
+    async function createToken() {
+      const mintKey = Keypair.generate();
+      const metadata = {
+        mint: mintKey.publicKey,
+        name: tokenName,
+        symbol: tokenSymbol,
+        uri: tokenImage,
+        additionalMetadata: [],
+      };
+      const mintLen = getMintLen([ExtensionType.MetadataPointer]);
+    }
+    createToken();
   };
 
   return (
-    <div className="relative-container bg-[#1C243E] w-[70%] p-4 rounded-xl h-[550px]">
-      <div className="bg-[#0B1022] pr-10 pl-10 m-10 rounded-xl input-field h-[450px] flex flex-col justify-evenly relative">
+    <div className="relative bg-[#1C243E] w-[100%] md:w-[60%] lg:w-[60%] xl:w-[60%] md:p-4 xl:p-4 lg:p-4 rounded-xl h-[480px] md:h-[550px] lg:h-[550px] xl:h-[550px]">
+      <div className="bg-[#0B1022] pr-10 pl-10 pb-10 m-3 md:m-8 lg:m-10 xl:m-10 rounded-xl input-field h-[450px] flex flex-col justify-evenly relative">
         <input
           placeholder="Enter the token name"
           id="name"

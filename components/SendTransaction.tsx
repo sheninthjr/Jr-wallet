@@ -84,8 +84,8 @@ export function SendTransaction() {
     !wallet.connected || !amount || parseFloat(amount) <= 0 || !recipient;
 
   return (
-    <div className="relative-container bg-[#1C243E] w-1/2 p-4 rounded-xl h-[550px]">
-      <div className="bg-[#0B1022] pr-10 pl-10 pb-10 m-10 rounded-xl input-field h-[450px] flex flex-col justify-evenly relative">
+    <div className="relative bg-[#1C243E] w-[100%] md:w-[70%] lg:w-1/2 xl:w-1/2 md:p-4 xl:p-4 lg:p-4 rounded-xl h-[480px] md:h-[550px] lg:h-[550px] xl:h-[550px]">
+      <div className="bg-[#0B1022] pr-10 pl-10 pb-10 m-3 md:m-8 lg:m-10 xl:m-10 rounded-xl input-field h-[450px] flex flex-col justify-evenly relative">
         <Image
           src="/sol.png"
           alt="SOL"
@@ -118,10 +118,9 @@ export function SendTransaction() {
           height={50}
           className="coin-animation"
         />
-
-        <div className="relative flex justify-between mb-4 ">
+        <div className="relative flex flex-col space-y-6 lg:space-y-0 xl:space-y-0 gap-2 lg:flex-row xl:flex-row justify-between mb-4 ">
           <div
-            className="relative w-44 h-14 bg-[#1C243E] p-4 rounded-xl text-white cursor-pointer"
+            className="relative w-[90%]-6 lg:w-44 xl:w-44 h-14 bg-[#1C243E] p-4 rounded-xl text-white cursor-pointer"
             onClick={toggleDropdown}
           >
             <div className="flex justify-between items-center">
@@ -138,7 +137,7 @@ export function SendTransaction() {
           </div>
 
           {isDropdownOpen && (
-            <div className="absolute top-16 w-44 bg-[#1C243E] rounded-xl text-white z-10">
+            <div className="absolute top-16 w-[100%] md:[70%] lg:w-44 xl:w-44 bg-[#1C243E] rounded-xl text-white z-10">
               {['SOL', 'ETH', 'BTC'].map((currency) => (
                 <div
                   key={currency}
@@ -162,7 +161,7 @@ export function SendTransaction() {
             placeholder="Enter amount"
             value={amount || ''}
             onChange={handleAmountChange}
-            className="rounded-xl w-48 outline-none pl-4 bg-[#1C243E] text-white h-14"
+            className="rounded-xl  w-[90%]-6 lg:w-44 xl:w-44 outline-none pl-4 bg-[#1C243E] text-white h-14"
           />
         </div>
 

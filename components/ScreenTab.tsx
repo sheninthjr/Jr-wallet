@@ -32,7 +32,7 @@ export function ScreenTab() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-around items-center font-semibold pt-10 relative">
+      <div className="flex flex-col sm:flex-row justify-around items-center font-semibold w-full pt-2 md:pt-10 lg:pt-10 xl:pt-10 relative">
         {tabs.map((tab, index) => (
           <div
             key={index}
@@ -58,7 +58,7 @@ export function ScreenTab() {
           }}
         />
       </div>
-      <div className="mt-8 p-4 text-black flex justify-center">
+      <div className="mt-8 md:p-4 lg:p-4 xl:p-4 text-black flex justify-center">
         {activeTab === 0 && <SendTransaction />}
         {activeTab === 1 && <TokenLaunchPad />}
         {activeTab === 2 && <RequestAirDrop />}
