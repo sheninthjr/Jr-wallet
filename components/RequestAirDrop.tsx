@@ -38,7 +38,7 @@ export function RequestAirDrop() {
   return (
     <div className="pt-10 md:pt-36 lg:pt-36 xl:pt-36 w-full flex items-center justify-center">
       <div className="relative bg-[#1C243E] w-[100%] md:w-[70%] lg:w-1/2 xl:w-1/2 p-4 rounded-xl flex flex-col justify-center items-center h-auto">
-        <div className="relative w-full flex flex-col items-center space-y-8 p-10">
+        <div className="relative w-full flex flex-col items-center space-y-8 p-2 md:p-10 lg:p-10 xl:p-10">
           <div className="relative w-full">
             <input
               placeholder="Enter the amount of SOL"

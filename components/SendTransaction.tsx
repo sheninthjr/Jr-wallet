@@ -161,7 +161,7 @@ export function SendTransaction() {
             placeholder="Enter amount"
             value={amount || ''}
             onChange={handleAmountChange}
-            className="rounded-xl  w-[90%]-6 lg:w-44 xl:w-44 outline-none pl-4 bg-[#1C243E] text-white h-14"
+            className="rounded-xl w-[100%] lg:w-44 xl:w-44 outline-none pl-4 bg-[#1C243E] text-white h-14"
           />
         </div>
 
