@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar';
 import { ScreenTab } from '@/components/ScreenTab';
+import React from 'react';
 
 export default function Home() {
   return (
